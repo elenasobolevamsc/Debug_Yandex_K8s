@@ -10,6 +10,7 @@ variables:
   DOCKER_TLS_VERIFY: 1 # enables TLS verification for secure Docker operations
   DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client" # path to the client TLS certificates
   DOCKER_DRIVER: overlay2 # specifies the storage driver for Docker
+  API_VERSION: 0.1
   STREAMLIT_VERSION: 0.1
 
 services:
@@ -22,8 +23,11 @@ build:
   stage: build
   script:
     - echo "${CI_REGISTRY_KEY}" | docker login ${CI_REGISTRY} -u json_key --password-stdin # logs into the Docker registry using credentials stored in the CI_REGISTRY_KEY
-    - echo ${CI_PROJECT_PATH}
-    - echo $CI_STREAMLIT_DIR
+#    - >- # builds a Docker image from the Dockerfile located in the project directory, tagging it with the commit SHA for versioning
+#        docker build
+#        "${CI_API_DIR}"
+#        --tag "${CI_REGISTRY}/${CI_API_PATH}:${API_VERSION}"
+#      - docker push "${CI_REGISTRY}/${CI_API_PATH}:${API_VERSION}" # pushes the built Docker image to the specified registry, making it available for deployment
     - >- # builds a Docker image from the Dockerfile located in the project directory, tagging it with the commit SHA for versioning
       docker build
       "${CI_STREAMLIT_DIR}"  
@@ -36,7 +40,7 @@ deploy:
   stage: deploy
   script:
     - kubectl config use-context elena_soboleva/debug_yandex_k8s:debug-yandex-k8s # sets the Kubernetes context to the specified project and agent
-    - cat k8s.yaml | sed -e "s,__VERSION__,${CI_REGISTRY}/${CI_STREAMLIT_PATH}:${STREAMLIT_VERSION}," | kubectl apply -f - # reads the k8s.yaml file and replaces the __VERSION__ placeholder with the Docker image tag from the build stage, applies the Kubernetes configuration to deploy the app
+    - cat k8s.yaml | sed -e "s,__VERSION_UI__,${CI_REGISTRY}/${CI_STEAMLIT_PATH}:${STREAMLIT_VERSION}," | kubectl apply -f - # reads the k8s.yaml file and replaces the __VERSION__ placeholder with the Docker image tag from the build stage, applies the Kubernetes configuration to deploy the app
 
 
 

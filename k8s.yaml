@@ -17,7 +17,7 @@ spec: # defines the desired state for the deployment
     spec: # defines the specification for the pod template
       containers: # lists the containers that will be running inside the pods
         - name: ui # the name of the container
-          image: cr.yandex/crpa080g7u2dce8qhsva/streamlit:0.1 # the Docker image used for this container
+          image: __VERSION_UI__ # the Docker image used for this container
           ports:
             - containerPort: 8501 # specifies that port 80 should be exposed on the container
           env:
@@ -37,3 +37,4 @@ spec:
       port: 80
       targetPort: 8501
   type: LoadBalancer
+
