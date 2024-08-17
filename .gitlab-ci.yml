@@ -36,11 +36,11 @@ build:
 
 
 deploy:
-  image: bitnami/kubectl:latest # uses the latest Bitnami Kubectl image for interacting with Kubernetes
+  image: bitnami/kubectl:latest # uses the latest Bitnami Kubectl image for interacting with Kubernetes   ,${CI_REGISTRY}/${CI_STEAMLIT_PATH}:${STREAMLIT_VERSION},"
   stage: deploy
   script:
     - kubectl config use-context elena_soboleva/debug_yandex_k8s:debug-yandex-k8s # sets the Kubernetes context to the specified project and agent
-    - cat k8s.yaml | sed -e "s,__VERSION_STREAMLIT__,${CI_REGISTRY}/${CI_STEAMLIT_PATH}:${STREAMLIT_VERSION}," | sed -e "s,__VERSION_API__,${CI_REGISTRY}/${CI_API_PATH}:${API_VERSION}," |kubectl apply -f - # reads the k8s.yaml file and replaces the __VERSION__ placeholder with the Docker image tag from the build stage, applies the Kubernetes configuration to deploy the app
+    - cat k8s.yaml | sed -e "s,__VERSION_STREAMLIT__,${CI_REGISTRY}/${CI_STREAMLIT_PATH}:${STREAMLIT_VERSION}," | sed -e "s,__VERSION_API__,${CI_REGISTRY}/${CI_API_PATH}:${API_VERSION}," |kubectl apply -f - # reads the k8s.yaml file and replaces the __VERSION__ placeholder with the Docker image tag from the build stage, applies the Kubernetes configuration to deploy the app
 
 
 
