@@ -26,7 +26,7 @@ if st.sidebar.button('predict'):
 
         data = df.to_json(orient='split')
         payload = {'data': data}
-        result = requests.post(f'{UI_API}/best_model', json=payload)
+        result = requests.post(f'http://{UI_API}/best_model', json=payload)
         res = pd.read_json(result.json()['pred'], orient='split')
         res.columns = ['Prediction']
         pred_res = pd.concat([df, res], axis=1)
