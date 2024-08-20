@@ -25,12 +25,12 @@ build:
     - echo "${CI_REGISTRY_KEY}" | docker login ${CI_REGISTRY} -u json_key --password-stdin # logs into the Docker registry using credentials stored in the CI_REGISTRY_KEY
     - >- # builds a Docker image from the Dockerfile located in the project directory, tagging it with the commit SHA for versioning
       docker build
-      "${CI_API_DIR}"
+      "${CI_API_PATH}"
       --tag "${CI_REGISTRY}/${CI_API_PATH}:${API_VERSION}"
     - docker push "${CI_REGISTRY}/${CI_API_PATH}:${API_VERSION}" # pushes the built Docker image to the specified registry, making it available for deployment
     - >- # builds a Docker image from the Dockerfile located in the project directory, tagging it with the commit SHA for versioning
       docker build
-      "${CI_STREAMLIT_DIR}"  
+      "${CI_STREAMLIT_PATH}"  
       --tag "${CI_REGISTRY}/${CI_STREAMLIT_PATH}:${STREAMLIT_VERSION}"
     - docker push "${CI_REGISTRY}/${CI_STREAMLIT_PATH}:${STREAMLIT_VERSION}" # pushes the built Docker image to the specified registry, making it available for deployment
 
