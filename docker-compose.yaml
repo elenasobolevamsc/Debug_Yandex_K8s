@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  api:
+    build: ./api
+    ports:
+      - "8000:8000"
+  gradio:
+    build:
+      context: ./gradio
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
