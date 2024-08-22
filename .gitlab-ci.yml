@@ -10,8 +10,8 @@ variables:
   DOCKER_TLS_VERIFY: 1 # enables TLS verification for secure Docker operations
   DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client" # path to the client TLS certificates
   DOCKER_DRIVER: overlay2 # specifies the storage driver for Docker
-  API_VERSION: 0.3
-  STREAMLIT_VERSION: 0.3
+  API_VERSION: 0.4
+  STREAMLIT_VERSION: 0.4
 
 services:
   - docker:20.10.16-dind # Docker-in-Docker (DinD) service image that allows running Docker commands inside a Docker container
